@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Dashboard from "./assets/pages/Dashboard";
 import ItemDetailsPage from "./assets/pages/ItemDetailsPage";
 import CategoryPage from "./assets/pages/CategoryPage";
+import AddItemPage from "./assets/components/AddItemPage";
 
 function App() {
   return (
@@ -16,6 +17,10 @@ function App() {
         <Route
           path="categories/:categoryID/items/:itemId"
           element={<ItemDetailsPage />}
+        />
+        <Route
+          path="categories/:categoryID/new-item"
+          element={<AddItemPage />}
         />
       </Routes>
     </>
