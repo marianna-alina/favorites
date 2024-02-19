@@ -53,7 +53,7 @@ export default function CategoryPage() {
       {category !== null && (
         <Link
           to={`/categories/${categoryID}/new-item`}
-          state={{ fields: category?.fields }}
+          state={{ fields: category?.fields, categoryName: category?.name }}
         >
           <button>Add item</button>
         </Link>
