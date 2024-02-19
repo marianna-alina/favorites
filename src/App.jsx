@@ -5,6 +5,7 @@ import Dashboard from "./assets/pages/Dashboard";
 import ItemDetailsPage from "./assets/pages/ItemDetailsPage";
 import CategoryPage from "./assets/pages/CategoryPage";
 import AddItemPage from "./assets/pages/AddItemPage";
+import EditItemPage from "./assets/pages/EditItemPage";
 
 function App() {
   return (
@@ -15,11 +16,15 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/categories/:categoryID" element={<CategoryPage />} />
         <Route
-          path="categories/:categoryID/items/:itemId"
+          path="/categories/:categoryID/items/:itemId"
           element={<ItemDetailsPage />}
         />
         <Route
-          path="categories/:categoryID/new-item"
+          path="/categories/:categoryID/items/:itemId/edit"
+          element={<EditItemPage />}
+        />
+        <Route
+          path="/categories/:categoryID/new-item"
           element={<AddItemPage />}
         />
       </Routes>
