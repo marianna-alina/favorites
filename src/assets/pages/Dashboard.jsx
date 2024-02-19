@@ -21,18 +21,16 @@ export default function Dashboard() {
     }, [categoryID])
 
     return (
-        <>
-            <h1>This is Dashboard</h1>
-
-            {category === null ? <p>Loading...</p> :
-                (category.map((element) => {
-                    return <Link to={`/categories/${element.id}`} key={element.id}><CategoryCard name={element.name} /></Link>
-
-
-                })
-                )}
+        <div className="backdrop-blur-sm bg-white/30 rounded-lg lg:w-5/6 sm:w-max flex flex-wrap justify-around gap-3">
+            {
+                category === null ? <p>Loading...</p> :
+                    (category.map((element) => {
+                        return <Link to={`/categories/${element.id}`} key={element.id} className="w-9/12 md:w-1/4 h-40 lg:h-96 md:h-60 sm:h-40"><CategoryCard name={element.name} /></Link>
+                    })
+                    )
+            }
 
 
-        </>
+        </div >
     )
 }
