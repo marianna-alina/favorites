@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import shortUUID from "short-uuid";
 import { convertToUppercase, pluralToSingular } from "../utils/stringFunctions";
+import { API_URL } from "../utils/apiUrl";
 
 export default function AddItemPage() {
   const location = useLocation();
@@ -22,7 +23,6 @@ export default function AddItemPage() {
   }, [fields]);
 
   const [item, setItem] = useState(null);
-  const API_URL = "https://json-server-backend-app.adaptable.app";
 
   function handleValueChanges(e) {
     setItem({
@@ -40,6 +40,8 @@ export default function AddItemPage() {
         id: newItemId,
       })
       .then(function () {
+        console.log(item);
+
         navigate(`/categories/${categoryID}`);
       })
       .catch(function (err) {

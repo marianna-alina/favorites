@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Dashboard from "./assets/pages/Dashboard";
 import ItemDetailsPage from "./assets/pages/ItemDetailsPage";
 import CategoryPage from "./assets/pages/CategoryPage";
-import AddItemPage from "./assets/components/AddItemPage";
+import AddItemPage from "./assets/pages/AddItemPage";
 
 function App() {
   return (
