@@ -22,7 +22,7 @@ export default function Dashboard({ items }) {
   }, [categoryID]);
 
   return (
-    <div className="backdrop-blur-sm bg-white/30 rounded-lg w-full gap-3 p-4 grid grid-cols-1 sm:grid-cols-2">
+    <div className="backdrop-blur-sm bg-white/30 rounded-lg w-full gap-3 p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {category === null ? (
         <p>Loading...</p>
       ) : (

@@ -13,9 +13,11 @@ import { PiWineFill } from "react-icons/pi";
 import { PiBowlFoodFill } from "react-icons/pi";
 import { RiMovieFill } from "react-icons/ri";
 import { BsBookmarkHeartFill } from "react-icons/bs";
+import { convertToUppercase } from "../utils/stringFunctions";
+import { FiMenu } from "react-icons/fi";
 
 export default function Navbar() {
-  const [category, setCategory] = useState(null);
+  const [categories, setCategories] = useState(null);
 
   const categoryIcons = {
     books: <GiBookCover />,
@@ -31,40 +33,44 @@ export default function Navbar() {
     axios
       .get(`${API_URL}/categories/`)
       .then((response) => {
-        setCategory(response.data);
+        setCategories(response.data);
       })
       .catch((e) => console.log(e));
-  }, [category]);
+  }, [categories]);
 
   return (
-    <div className="flex w-full">
-      <div className="flex flex-row content-center justify-start text-3xl w-full">
-        <RiHeartAddLine />
-        <Link to="/">
-          <h1 className="uppercase font-semibold">Favorites</h1>
-        </Link>
-      </div>
-      <div className="flex">
-        <Searchbar />
-        <div className="flex gap-15 justify-between  border">
-          {category === null ? (
+    <div className="flex flex-col w-full">
+      <div className="flex items-center">
+        <div className="flex content-center justify-start text-3xl w-full">
+          <RiHeartAddLine />
+          <Link to="/">
+            <h1 className="uppercase font-semibold">Favorites</h1>
+          </Link>
+        </div>
+        <FiMenu size={30} className="lg:hidden" />
+        <div className="hidden lg:flex gap-4 justify-between">
+          {categories === null ? (
             <p>Loading...</p>
           ) : (
-            category.map((element) => (
+            categories.map((element) => (
               <div key={element.id}>
                 <NavLink
                   to={`/categories/${element.id}`}
-                  className="flex content-center gap-2 text-lg "
+                  className="flex items-center gap-2 text-lg "
                 >
                   {categoryIcons[element.name]
                     ? categoryIcons[element.name.toLowerCase()]
                     : categoryIcons["other"]}
-                  {element.name.toUpperCase()}
+                  {convertToUppercase(element.name)}
                 </NavLink>
               </div>
             ))
           )}
         </div>
+      </div>
+
+      <div className="flex flex-col">
+        <Searchbar />
       </div>
     </div>
   );
