@@ -8,14 +8,23 @@ import CategoryPage from "./assets/pages/CategoryPage";
 import AddItemPage from "./assets/pages/AddItemPage";
 import EditItemPage from "./assets/pages/EditItemPage";
 import { API_URL } from "./assets/utils/apiUrl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import AddCategoryPage from "./assets/pages/AddCategoryPage";
 
 function App() {
-
   const [items, setItems] = useState(null);
   const { categoryID } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/items`)
+      .then((response) => {
+        setItems(response.data);
+      })
+      .catch((e) => console.log(e));
+  }, [categoryID]);
 
   const deleteItem = (itemIdToDelete) => {
     const confirmed = window.confirm(
@@ -34,14 +43,16 @@ function App() {
     }
   };
 
-
   return (
     <>
       <Navbar />
 
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/categories/:categoryID" element={<CategoryPage deleteItem={deleteItem} />} />
+        <Route path="/" element={<Dashboard items={items} />} />
+        <Route
+          path="/categories/:categoryID"
+          element={<CategoryPage deleteItem={deleteItem} items={items} />}
+        />
         <Route
           path="/categories/:categoryID/items/:itemId"
           element={<ItemDetailsPage deleteItem={deleteItem} />}
@@ -54,6 +65,7 @@ function App() {
           path="/categories/:categoryID/new-item"
           element={<AddItemPage />}
         />
+        <Route path="/new-category" element={<AddCategoryPage />} />
       </Routes>
     </>
   );

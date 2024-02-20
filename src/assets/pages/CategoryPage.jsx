@@ -4,33 +4,21 @@ import axios from "axios";
 import ItemCard from "../components/ItemCard";
 import { convertToUppercase } from "../utils/stringFunctions";
 import { CiCirclePlus } from "react-icons/ci";
-import { API_URL } from "../utils/apiUrl";
 
-export default function CategoryPage({ deleteItem }) {
-
+export default function CategoryPage({ deleteItem, items }) {
   const [category, setCategory] = useState(null);
-  const [items, setItems] = useState(null);
+
+  const API_URL = "https://json-server-backend-app.adaptable.app";
 
   const { categoryID } = useParams();
 
-
   const navigate = useNavigate();
-
 
   useEffect(() => {
     axios
       .get(`${API_URL}/categories/${categoryID}`)
       .then((response) => {
         setCategory(response.data);
-      })
-      .catch((e) => console.log(e));
-  }, [categoryID]);
-
-  useEffect(() => {
-    axios
-      .get(`${API_URL}/items`)
-      .then((response) => {
-        setItems(response.data);
       })
       .catch((e) => console.log(e));
   }, [categoryID]);
@@ -42,7 +30,6 @@ export default function CategoryPage({ deleteItem }) {
       });
     }
   };
-
 
   return (
     <div className="flex flex-col gap-3">
@@ -69,7 +56,11 @@ export default function CategoryPage({ deleteItem }) {
           <p>Loading...</p>
         ) : (
           filterItems(items).map((filteredItem) => (
-            <ItemCard key={filteredItem.id} item={filteredItem} deleteItem={deleteItem} />
+            <ItemCard
+              key={filteredItem.id}
+              item={filteredItem}
+              deleteItem={deleteItem}
+            />
           ))
         )}
       </div>

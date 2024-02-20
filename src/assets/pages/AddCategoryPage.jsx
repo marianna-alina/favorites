@@ -15,7 +15,6 @@ export default function AddCategoryPage() {
     setCategory({
       ...category,
       fields: category.fields.map((field, i) => (i === index ? value : field)),
-      // [e.target.name]: e.target.value,
     });
   }
 
@@ -75,7 +74,6 @@ export default function AddCategoryPage() {
               <label className="text-lg">{`Field #${index + 1}`}</label>
 
               <input
-                required
                 className="mb-4 pl-2 pt-1 pb-1 rounded-md "
                 type="text"
                 name={`Field #${index + 1}`}

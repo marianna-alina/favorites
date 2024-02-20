@@ -7,8 +7,9 @@ import CategoryCard from "../components/CategoryCard";
 import { convertToUppercase } from "../utils/stringFunctions";
 import { API_URL } from "../utils/apiUrl";
 
-export default function Dashboard() {
+export default function Dashboard({ items }) {
   const [category, setCategory] = useState(null);
+
   const { categoryID } = useParams();
 
   useEffect(() => {
@@ -32,11 +33,18 @@ export default function Dashboard() {
               key={element.id}
               className="w-9/12 md:w-1/4 h-40 lg:h-96 md:h-60 sm:h-40"
             >
-              <CategoryCard name={convertToUppercase(element.name)} />
+              <CategoryCard
+                name={convertToUppercase(element.name)}
+                items={items}
+                id={element.id}
+              />
             </Link>
           );
         })
       )}
+      <Link to="/new-category">
+        <button>Add Category</button>
+      </Link>
     </div>
   );
 }
