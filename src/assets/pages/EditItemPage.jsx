@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { API_URL } from "../utils/apiUrl";
+
 
 export default function EditItemPage() {
     const location = useLocation();
@@ -10,7 +12,6 @@ export default function EditItemPage() {
 
 
     const [editedItem, setEditedItem] = useState(item);
-    const API_URL = "https://json-server-backend-app.adaptable.app";
 
     function handleValueChanges(e) {
         setEditedItem({
@@ -25,7 +26,7 @@ export default function EditItemPage() {
         axios
             .put(`${API_URL}/items/${editedItem.id}`, editedItem)
             .then(function () {
-                navigate(`/`);
+                navigate(`/categories/${categoryID}`);
             })
             .catch(function (err) {
                 console.log(err);

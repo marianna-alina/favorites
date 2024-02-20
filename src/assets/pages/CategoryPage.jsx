@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ItemCard from "../components/ItemCard";
 import { convertToUppercase } from "../utils/stringFunctions";
 import { CiCirclePlus } from "react-icons/ci";
 import { API_URL } from "../utils/apiUrl";
 
-export default function CategoryPage() {
+export default function CategoryPage({ deleteItem }) {
+
   const [category, setCategory] = useState(null);
   const [items, setItems] = useState(null);
 
   const { categoryID } = useParams();
+
+
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     axios
@@ -38,6 +43,7 @@ export default function CategoryPage() {
     }
   };
 
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex justify-between items-center">
@@ -63,9 +69,7 @@ export default function CategoryPage() {
           <p>Loading...</p>
         ) : (
           filterItems(items).map((filteredItem) => (
-            <Link key={filteredItem.id} to={`items/${filteredItem.id}`}>
-              <ItemCard item={filteredItem} />
-            </Link>
+            <ItemCard key={filteredItem.id} item={filteredItem} deleteItem={deleteItem} />
           ))
         )}
       </div>
