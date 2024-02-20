@@ -22,7 +22,7 @@ export default function Dashboard({ items }) {
   }, [categoryID]);
 
   return (
-    <div className="backdrop-blur-sm bg-white/30 rounded-lg lg:w-5/6 sm:w-max flex flex-wrap justify-around gap-3 p-4">
+    <div className="backdrop-blur-sm bg-white/30 rounded-lg w-full gap-3 p-4 grid grid-cols-1 sm:grid-cols-2">
       {category === null ? (
         <p>Loading...</p>
       ) : (
@@ -31,7 +31,7 @@ export default function Dashboard({ items }) {
             <Link
               to={`/categories/${element.id}`}
               key={element.id}
-              className="w-9/12 md:w-1/4 h-40 lg:h-96 md:h-60 sm:h-40"
+              className="h-72 w-full"
             >
               <CategoryCard
                 name={convertToUppercase(element.name)}

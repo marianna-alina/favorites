@@ -44,7 +44,7 @@ function App() {
   };
 
   return (
-    <>
+    <div className="flex flex-col">
       <Navbar />
 
       <Routes>
@@ -67,7 +67,7 @@ function App() {
         />
         <Route path="/new-category" element={<AddCategoryPage />} />
       </Routes>
-    </>
+    </div>
   );
 }
 
