@@ -4,6 +4,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import shortUUID from "short-uuid";
 import { convertToUppercase, pluralToSingular } from "../utils/stringFunctions";
 import { API_URL } from "../utils/apiUrl";
+import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
 export default function AddItemPage() {
   const location = useLocation();
@@ -22,6 +24,8 @@ export default function AddItemPage() {
   }, [fields]);
 
   const [item, setItem] = useState(null);
+  const [waitingForImageUrl, setWaitingForImageUrl] = useState(false)
+  const [imageUrl, setImageUrl] = useState(null);
 
   function handleValueChanges(e) {
     setItem({
@@ -29,6 +33,7 @@ export default function AddItemPage() {
       [e.target.name]: e.target.value,
     });
   }
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -37,6 +42,7 @@ export default function AddItemPage() {
         ...item,
         category_id: categoryID,
         id: newItemId,
+        img: imageUrl,
       })
       .then(function () {
         navigate(`/categories/${categoryID}`);
@@ -44,6 +50,44 @@ export default function AddItemPage() {
       .catch(function (err) {
         console.log(err);
       });
+  }
+
+
+  function handleFileUpload(e) {
+    setWaitingForImageUrl(true);
+
+    const url = `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_NAME}/upload`;
+
+    const dataToUpload = new FormData();
+    dataToUpload.append("file", e.target.files[0]);
+    dataToUpload.append("upload_preset", import.meta.env.VITE_UNSIGNED_UPLOAD_PRESET);
+
+    axios
+      .post(url, dataToUpload)
+      .then((response) => {
+        setImageUrl(response.data.secure_url);
+        setWaitingForImageUrl(false);
+      })
+      .catch((error) => {
+        console.error("Error uploading the file:", error);
+      });
+  }
+
+  async function addFavorite(e) {
+    e.preventDefault();
+
+    try {
+      const docRef = await addDoc(collection(db, "items"), {
+        ...item,
+        category_id: categoryID,
+        id: newItemId,
+      });
+      console.log("Document written with ID: ", docRef.id);
+      console.log(item);
+      navigate(`/categories/${categoryID}`);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   }
 
   if (item === null) return null;
@@ -54,6 +98,7 @@ export default function AddItemPage() {
         <h1 className="text-3xl font-bold">
           Add a new {pluralToSingular(categoryName)}
         </h1>
+        <input type="file" onChange={(e) => handleFileUpload(e)} />
         <form onSubmit={handleSubmit}>
           {Object.entries(item).map(([key, value], index) => (
             <div
@@ -86,10 +131,11 @@ export default function AddItemPage() {
             </div>
           ))}
 
-          <button className="bg-slate-500 rounded-md text-white font-bold p-2 hover:opacity-70">
+          <button className="bg-slate-500 rounded-md text-white font-bold p-2 hover:opacity-70" type="submit" disabled={waitingForImageUrl}>
             Submit
           </button>
         </form>
+        {imageUrl && <img src={imageUrl} alt="item image" />}
       </div>
     </>
   );

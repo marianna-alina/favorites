@@ -27,14 +27,6 @@ export default function CategoryPage({
       })
       .catch((e) => console.log(e));
   }, [categoryID]);
-  // useEffect(() => {
-  //   axios
-  //     .get(`${API_URL}/items`)
-  //     .then((response) => {
-  //       setItems(response.data);
-  //     })
-  //     .catch((e) => console.log(e));
-  // }, [categoryID, items]);
 
   const filterItems = (array) => {
     if (array) {
@@ -66,7 +58,7 @@ export default function CategoryPage({
         )}
       </div>
 
-      <div className="grid lg:grid-cols-2 2xl:grid-cols-3 gap-4">
+      <div className="grid lg:grid-cols-3 2xl:grid-cols-4 gap-6">
         {items === null ? (
           <p>Loading...</p>
         ) : (

@@ -37,12 +37,13 @@ export default function Searchbar() {
     };
 
     return (
-        <div className="my-10">
+        <div>
             <input
                 type="text"
                 placeholder="Search favorite..."
                 onChange={handleChange}
                 value={query}
+                className="rounded-md p-1"
             />
             <ul>
                 {searchResults.map((item) => (

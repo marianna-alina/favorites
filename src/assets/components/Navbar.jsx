@@ -4,7 +4,7 @@ import Searchbar from "./Searchbar";
 
 import axios from "axios";
 import { API_URL } from "../utils/apiUrl";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { GiBookCover } from "react-icons/gi";
 import { BiSolidCameraMovie } from "react-icons/bi";
@@ -25,8 +25,11 @@ import { Tooltip } from "@mui/material";
 
 export default function Navbar() {
   const [categories, setCategories] = useState(null);
+  const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
   const auth = getAuth(app);
+  let menuRef = useRef();
+
 
   const categoryIcons = {
     books: <GiBookCover />,
@@ -57,44 +60,74 @@ export default function Navbar() {
     }
   }
 
+  const toggleMenu = () => {
+    setShowMenu(!showMenu)
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
+
   return (
-    <div className="flex flex-col w-full">
-      <div className="flex items-center gap-3">
-        <div className="flex content-center justify-start text-3xl w-full">
+    <div>
+      <div className="flex justify-between mb-16 pr-20">
+        <div className="flex content-center justify-end text-3xl">
           <RiHeartAddLine />
           <Link to="/dashboard">
-            <h1 className="uppercase font-semibold">Favorites</h1>
+            <h1 className="uppercase font-semibold">myfavs</h1>
           </Link>
         </div>
-        <FiMenu size={30} className="lg:hidden" />
-        <div className="hidden lg:flex gap-4 justify-between ">
-          {categories === null ? (
-            <p>Loading...</p>
-          ) : (
-            categories.map((element) => (
-              <div key={element.id}>
-                <NavLink
-                  to={`/categories/${element.id}`}
-                  className="flex items-center gap-2 text-lg   whitespace-nowrap "
-                >
-                  {categoryIcons[element.name]
-                    ? categoryIcons[element.name.toLowerCase()]
-                    : categoryIcons["other"]}
-                  {convertToUppercase(element.name)}
-                </NavLink>
-              </div>
-            ))
-          )}
-        </div>
-        <Tooltip title="Logout">
-          <button onClick={handleSignOut}>
-            <IoLogOutOutline size={30} />
-          </button>
-        </Tooltip>
-      </div>
+        <div className="flex content-end items-start">
+          <div ref={menuRef}>
+            <div className="flex" >
+              <FiMenu className="md:hidden flex-end justify-end absolute right-[70px]" size={30} onClick={() => {
+                toggleMenu()
+                console.log("menu open")
+              }} />
+              <Tooltip title="Logout">
+                <button className="flex content-start absolute right-[30px] sm:right-10" onClick={handleSignOut}>
+                  <IoLogOutOutline size={30} />
+                </button>
+              </Tooltip>
 
-      <div className="flex flex-col">
-        <Searchbar size={50} />
+            </div>
+            <div className={`md:flex ${showMenu ? '' : 'hidden'} gap-4 justify-end w-max`} >
+              <div className="items-start mt-20 md:mt-0 font-boldsm:mt-0">
+                <Searchbar />
+              </div>
+              {categories === null ? (
+                <p>Loading...</p>
+              ) : (
+                categories.map((element) => (
+                  <div key={element.id}>
+                    <NavLink
+                      to={`/categories/${element.id}`}
+                      className="flex items-center flex-wrap justify-start w-max left-0 gap-2 py-2 text-lg"
+                    >
+                      {categoryIcons[element.name]
+                        ? categoryIcons[element.name.toLowerCase()]
+                        : categoryIcons["other"]}
+                      {convertToUppercase(element.name)}
+                    </NavLink>
+                  </div>
+                ))
+              )
+              }
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   );
