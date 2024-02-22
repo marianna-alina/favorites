@@ -1,5 +1,5 @@
 import { RiHeartAddLine } from "react-icons/ri";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Searchbar from "./Searchbar";
 
 import axios from "axios";
@@ -15,9 +15,17 @@ import { RiMovieFill } from "react-icons/ri";
 import { BsBookmarkHeartFill } from "react-icons/bs";
 import { convertToUppercase } from "../utils/stringFunctions";
 import { FiMenu } from "react-icons/fi";
+import { IoLogOutOutline } from "react-icons/io5";
+import {
+  getAuth,
+  signOut,
+} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { app } from "../../firebaseConfig";
 
 export default function Navbar() {
   const [categories, setCategories] = useState(null);
+  const navigate = useNavigate();
+  const auth = getAuth(app);
 
   const categoryIcons = {
     books: <GiBookCover />,
@@ -38,17 +46,27 @@ export default function Navbar() {
       .catch((e) => console.log(e));
   }, [categories]);
 
+  async function handleSignOut() {
+    try {
+      await signOut(auth);
+      console.log("User Signed Out Successfully!");
+      navigate("/");
+    } catch (error) {
+      console.log(error.code);
+    }
+  }
+
   return (
     <div className="flex flex-col w-full">
-      <div className="flex items-center">
+      <div className="flex items-center gap-3">
         <div className="flex content-center justify-start text-3xl w-full">
           <RiHeartAddLine />
-          <Link to="/">
+          <Link to="/dashboard">
             <h1 className="uppercase font-semibold">Favorites</h1>
           </Link>
         </div>
         <FiMenu size={30} className="lg:hidden" />
-        <div className="hidden lg:flex gap-4 justify-between">
+        <div className="hidden lg:flex gap-4 justify-between ">
           {categories === null ? (
             <p>Loading...</p>
           ) : (
@@ -56,7 +74,7 @@ export default function Navbar() {
               <div key={element.id}>
                 <NavLink
                   to={`/categories/${element.id}`}
-                  className="flex items-center gap-2 text-lg "
+                  className="flex items-center gap-2 text-lg   whitespace-nowrap "
                 >
                   {categoryIcons[element.name]
                     ? categoryIcons[element.name.toLowerCase()]
@@ -67,10 +85,13 @@ export default function Navbar() {
             ))
           )}
         </div>
+        <button onClick={handleSignOut}>
+          <IoLogOutOutline size={30} />
+        </button>
       </div>
 
       <div className="flex flex-col">
-        <Searchbar />
+        <Searchbar size={50} />
       </div>
     </div>
   );

@@ -4,6 +4,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import shortUUID from "short-uuid";
 import { convertToUppercase, pluralToSingular } from "../utils/stringFunctions";
 import { API_URL } from "../utils/apiUrl";
+import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
 export default function AddItemPage() {
   const location = useLocation();
@@ -47,6 +49,23 @@ export default function AddItemPage() {
       .catch(function (err) {
         console.log(err);
       });
+  }
+
+  async function addFavorite(e) {
+    e.preventDefault();
+
+    try {
+      const docRef = await addDoc(collection(db, "items"), {
+        ...item,
+        category_id: categoryID,
+        id: newItemId,
+      });
+      console.log("Document written with ID: ", docRef.id);
+      console.log(item);
+      navigate(`/categories/${categoryID}`);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   }
 
   if (item === null) return null;
