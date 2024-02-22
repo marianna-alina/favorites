@@ -1,6 +1,5 @@
 import "./App.css";
 import axios from "axios";
-import Navbar from "./assets/components/Navbar";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Dashboard from "./assets/pages/Dashboard";
 import ItemDetailsPage from "./assets/pages/ItemDetailsPage";
@@ -9,11 +8,10 @@ import AddItemPage from "./assets/pages/AddItemPage";
 import EditItemPage from "./assets/pages/EditItemPage";
 import { API_URL } from "./assets/utils/apiUrl";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import AddCategoryPage from "./assets/pages/AddCategoryPage";
 import LandingPage from "./assets/pages/LandingPage";
 import ProtectedRoute from "./assets/pages/ProtectedRoute";
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 import { continueWithGoogle } from "./assets/utils/auth";
 import { app } from "./firebaseConfig";
@@ -22,11 +20,18 @@ function App() {
   const [items, setItems] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { categoryID } = useParams();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setIsDialogOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsDialogOpen(false);
+  };
+
   const navigate = useNavigate();
   const auth = getAuth(app);
-
-  console.log(user);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -53,27 +58,29 @@ function App() {
         setItems(response.data);
       })
       .catch((e) => console.log(e));
-  }, [categoryID]);
+  }, []);
 
-  const deleteItem = (itemIdToDelete) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this item?"
-    );
-    if (confirmed) {
-      axios
-        .delete(`${API_URL}/items/${itemIdToDelete}`)
-        .then(() => {
-          setItems(null);
-          navigate(`/categories/${categoryID}`);
-        })
-        .catch((error) => {
-          console.error("Error deleting item:", error);
-        });
-    }
+  const deleteItem = (itemToDelete) => {
+    // const confirmed = window.confirm(
+    //   "Are you sure you want to delete this item?"
+    // );
+    //if (confirmed) {
+    axios
+      .delete(`${API_URL}/items/${itemToDelete.id}`)
+      .then(() => {
+        setItems(items.filter((item) => item.id !== itemToDelete.id));
+        setIsDialogOpen(false);
+
+        navigate(`/categories/${itemToDelete.category_id}`);
+      })
+      .catch((error) => {
+        console.error("Error deleting item:", error);
+      });
+    // }
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Or any other loading indicator you prefer
+    return <div>Loading...</div>;
   }
 
   return (
@@ -102,7 +109,13 @@ function App() {
           path="/categories/:categoryID"
           element={
             <ProtectedRoute user={user} redirect="/categories/:categoryID">
-              <CategoryPage deleteItem={deleteItem} items={items} />
+              <CategoryPage
+                deleteItem={deleteItem}
+                items={items}
+                handleClickOpen={handleClickOpen}
+                handleClose={handleClose}
+                isDialogOpen={isDialogOpen}
+              />
             </ProtectedRoute>
           }
         />

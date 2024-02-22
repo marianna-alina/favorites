@@ -21,6 +21,7 @@ import {
   signOut,
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { app } from "../../firebaseConfig";
+import { Tooltip } from "@mui/material";
 
 export default function Navbar() {
   const [categories, setCategories] = useState(null);
@@ -44,7 +45,7 @@ export default function Navbar() {
         setCategories(response.data);
       })
       .catch((e) => console.log(e));
-  }, [categories]);
+  }, []);
 
   async function handleSignOut() {
     try {
@@ -85,9 +86,11 @@ export default function Navbar() {
             ))
           )}
         </div>
-        <button onClick={handleSignOut}>
-          <IoLogOutOutline size={30} />
-        </button>
+        <Tooltip title="Logout">
+          <button onClick={handleSignOut}>
+            <IoLogOutOutline size={30} />
+          </button>
+        </Tooltip>
       </div>
 
       <div className="flex flex-col">

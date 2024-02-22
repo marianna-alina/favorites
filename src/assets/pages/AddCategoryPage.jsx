@@ -34,14 +34,13 @@ export default function AddCategoryPage() {
         category_id: newCategoryId,
       })
       .then(function () {
-        console.log(category);
-
-        navigate(`/`);
+        navigate(`/dashboard`);
       })
       .catch(function (err) {
         console.log(err);
       });
   }
+
   return (
     <>
       <div className="flex flex-col max-w-full p-4 gap-5 ">

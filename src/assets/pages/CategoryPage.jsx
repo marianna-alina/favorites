@@ -1,18 +1,23 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import ItemCard from "../components/ItemCard";
 import { convertToUppercase } from "../utils/stringFunctions";
 import { CiCirclePlus } from "react-icons/ci";
+import { Tooltip } from "@mui/material";
 
-export default function CategoryPage({ deleteItem, items }) {
+export default function CategoryPage({
+  deleteItem,
+  items,
+  handleClickOpen,
+  handleClose,
+  isDialogOpen,
+}) {
   const [category, setCategory] = useState(null);
 
   const API_URL = "https://json-server-backend-app.adaptable.app";
 
   const { categoryID } = useParams();
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -22,6 +27,14 @@ export default function CategoryPage({ deleteItem, items }) {
       })
       .catch((e) => console.log(e));
   }, [categoryID]);
+  // useEffect(() => {
+  //   axios
+  //     .get(`${API_URL}/items`)
+  //     .then((response) => {
+  //       setItems(response.data);
+  //     })
+  //     .catch((e) => console.log(e));
+  // }, [categoryID, items]);
 
   const filterItems = (array) => {
     if (array) {
@@ -38,16 +51,18 @@ export default function CategoryPage({ deleteItem, items }) {
           <p>Nothing here</p>
         ) : (
           <h1 className="text-3xl font-bold">
-            {convertToUppercase(category.name)}
+            {convertToUppercase(category?.name)}
           </h1>
         )}
         {category !== null && (
-          <Link
-            to={`/categories/${categoryID}/new-item`}
-            state={{ fields: category?.fields, categoryName: category?.name }}
-          >
-            <CiCirclePlus size={40} className="hover:opacity-70 font-bold" />
-          </Link>
+          <Tooltip title="Add a new item">
+            <Link
+              to={`/categories/${categoryID}/new-item`}
+              state={{ fields: category?.fields, categoryName: category?.name }}
+            >
+              <CiCirclePlus size={40} className="hover:opacity-70 font-bold" />
+            </Link>
+          </Tooltip>
         )}
       </div>
 
@@ -59,7 +74,12 @@ export default function CategoryPage({ deleteItem, items }) {
             <ItemCard
               key={filteredItem.id}
               item={filteredItem}
-              deleteItem={deleteItem}
+              deleteItem={() => {
+                deleteItem(filteredItem);
+              }}
+              handleClickOpen={handleClickOpen}
+              handleClose={handleClose}
+              isDialogOpen={isDialogOpen}
             />
           ))
         )}
