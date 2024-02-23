@@ -55,6 +55,18 @@ export default function ItemCard({
           </Link>
         </Tooltip>
       </div>
+      <Link to={`items/${item.id}`}>
+        <div className="text-left w-48 flex gap-6">
+          {item.img && <img src={item.img} />}
+          <div>
+            {Object.entries(item)
+              .filter(
+                (entry) =>
+                  !entry.includes("id") &&
+                  !entry.includes("category_id") &&
+                  !entry.includes("categoryId") &&
+                  !entry.includes("img")
+              )
       <Link className="text-left w-48 flex justify-between gap-6 flex flex-col sm:flex-row" to={`items/${item.id}`}>
         {item.img && <img src={item.img} className="object-contain" />}
         <div>

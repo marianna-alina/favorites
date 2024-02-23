@@ -7,7 +7,7 @@ export default function ProtectedRoute({ user, children, redirect }) {
   return (
     <div>
       {user ? (
-        <div>
+        <div className="flex flex-col items-stretch ">
           <Navbar />
           {children}
         </div>

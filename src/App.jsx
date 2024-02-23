@@ -84,7 +84,7 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full  h-screen">
       <Routes>
         <Route
           path="/"

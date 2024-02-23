@@ -30,7 +30,6 @@ export default function Navbar() {
   const auth = getAuth(app);
   let menuRef = useRef();
 
-
   const categoryIcons = {
     books: <GiBookCover />,
     movies: <BiSolidCameraMovie />,
@@ -61,7 +60,7 @@ export default function Navbar() {
   }
 
   const toggleMenu = () => {
-    setShowMenu(!showMenu)
+    setShowMenu(!showMenu);
   };
 
   useEffect(() => {
@@ -71,13 +70,12 @@ export default function Navbar() {
       }
     };
 
-    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener("mousedown", handleOutsideClick);
 
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
-
 
   return (
     <div>
@@ -90,19 +88,29 @@ export default function Navbar() {
         </div>
         <div className="flex content-end items-start">
           <div ref={menuRef}>
-            <div className="flex" >
-              <FiMenu className="md:hidden flex-end justify-end absolute right-[70px]" size={30} onClick={() => {
-                toggleMenu()
-                console.log("menu open")
-              }} />
+            <div className="flex">
+              <FiMenu
+                className="md:hidden flex-end justify-end absolute right-[70px]"
+                size={30}
+                onClick={() => {
+                  toggleMenu();
+                  console.log("menu open");
+                }}
+              />
               <Tooltip title="Logout">
-                <button className="flex content-start absolute right-[30px] sm:right-10" onClick={handleSignOut}>
+                <button
+                  className="flex content-start absolute right-[30px] sm:right-10"
+                  onClick={handleSignOut}
+                >
                   <IoLogOutOutline size={30} />
                 </button>
               </Tooltip>
-
             </div>
-            <div className={`md:flex ${showMenu ? '' : 'hidden'} gap-4 justify-end w-max`} >
+            <div
+              className={`md:flex ${
+                showMenu ? "" : "hidden"
+              } gap-4 justify-end w-max`}
+            >
               <div className="items-start mt-20 md:mt-0 font-boldsm:mt-0">
                 <Searchbar />
               </div>
@@ -122,12 +130,28 @@ export default function Navbar() {
                     </NavLink>
                   </div>
                 ))
-              )
-              }
+              )}
             </div>
           </div>
-
         </div>
+      </div>
+      <div className=" border flex h-full justify-end ">
+        <FiMenu
+          className=" flex-end justify-end absolute right-[70px]"
+          size={30}
+          onClick={() => {
+            toggleMenu();
+            console.log("menu open");
+          }}
+        />
+        <Tooltip title="Logout">
+          <button
+            className="flex content-start absolute right-[30px] sm:right-10"
+            onClick={handleSignOut}
+          >
+            <IoLogOutOutline size={30} />
+          </button>
+        </Tooltip>
       </div>
     </div>
   );
