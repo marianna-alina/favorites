@@ -71,7 +71,7 @@ export default function ItemCard({
               <div key={index} className="w-40 ">
                 {entry[0] === "name" ? (<h1 className="text-lg text-left text-2xl mb-6 w-80">
                   <b>{entry[1]}</b>
-                </h1>) : (<p className="text-lg text-left w-80 ">
+                </h1>) : (<p className="text-lg text-left w-60 ">
                   <b>{convertToUppercase(entry[0])}</b>: {entry[1]}
                 </p>)}
               </div>
