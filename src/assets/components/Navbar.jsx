@@ -135,7 +135,7 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-      <div className=" border flex h-full justify-end ">
+      {/* <div className=" border flex h-full justify-end ">
         <FiMenu
           className=" flex-end justify-end absolute right-[70px]"
           size={30}
@@ -152,7 +152,7 @@ export default function Navbar() {
             <IoLogOutOutline size={30} />
           </button>
         </Tooltip>
-      </div>
+      </div> */}
     </div>
   );
 }

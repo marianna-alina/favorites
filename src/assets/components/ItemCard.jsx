@@ -55,19 +55,11 @@ export default function ItemCard({
           </Link>
         </Tooltip>
       </div>
-      <Link to={`items/${item.id}`}>
-        <div className="text-left w-48 flex gap-6">
-          {item.img && <img src={item.img} />}
-          <div>
-            {Object.entries(item)
-              .filter(
-                (entry) =>
-                  !entry.includes("id") &&
-                  !entry.includes("category_id") &&
-                  !entry.includes("categoryId") &&
-                  !entry.includes("img")
-              )
-      <Link className="text-left w-48 flex justify-between gap-6 flex flex-col sm:flex-row" to={`items/${item.id}`}>
+
+      <Link
+        className="text-left w-48 flex justify-between gap-6 flex flex-col sm:flex-row"
+        to={`items/${item.id}`}
+      >
         {item.img && <img src={item.img} className="object-contain" />}
         <div>
           {Object.entries(item)
@@ -81,11 +73,15 @@ export default function ItemCard({
 
             .map((entry, index) => (
               <div key={index} className="w-40 ">
-                {entry[0] === "name" ? (<h1 className="text-lg text-left text-2xl mb-6 w-80">
-                  <b>{entry[1]}</b>
-                </h1>) : (<p className="text-lg text-left w-60 ">
-                  <b>{convertToUppercase(entry[0])}</b>: {entry[1]}
-                </p>)}
+                {entry[0] === "name" ? (
+                  <h1 className="text-lg text-left text-2xl mb-6 w-80">
+                    <b>{entry[1]}</b>
+                  </h1>
+                ) : (
+                  <p className="text-lg text-left w-60 ">
+                    <b>{convertToUppercase(entry[0])}</b>: {entry[1]}
+                  </p>
+                )}
               </div>
             ))}
         </div>

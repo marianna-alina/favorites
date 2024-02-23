@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 
 export default function LandingPage({ handleSignUp }) {
   return (
-    <div className="flex-flex-col h-full ">
+    <div className="flex-flex-col h-screen">
       <div className="flex items-center justify-between">
         <div className="flex justify-start text-3xl w-full">
           <RiHeartAddLine />
