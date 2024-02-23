@@ -11,7 +11,7 @@ export default function LandingPage({ handleSignUp, user }) {
         <div className="flex justify-start text-3xl w-full ">
           <RiHeartAddLine />
           <Link to="/">
-            <h1 className="uppercase font-semibold">Favorites</h1>
+            <h1 className="uppercase font-semibold">Myfaves</h1>
           </Link>
         </div>
         <button className="shrink-0">Sign Up</button>
