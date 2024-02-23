@@ -37,7 +37,7 @@ export default function Searchbar() {
   };
 
   return (
-    <div className="my-10">
+    <div>
       <input
         type="text"
         placeholder="Search favorite..."

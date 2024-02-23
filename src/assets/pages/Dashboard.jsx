@@ -23,8 +23,8 @@ export default function Dashboard({ items, user }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex justify-between">
-        <h1 className="text-3xl">
+      <div className="flex justify-between md:mt-4">
+        <h1 className="text-3xl ">
           Hello {user?.displayName.slice(0, user.displayName.indexOf(" "))}
         </h1>
         <Link to="/new-category">

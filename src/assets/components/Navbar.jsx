@@ -79,24 +79,25 @@ export default function Navbar() {
 
   return (
     <div>
-      <div className="flex justify-between mb-16 pr-20">
+      <div className="flex justify-between mb-16">
         <div className="flex content-center justify-end text-3xl">
           <RiHeartAddLine />
           <Link to="/dashboard">
             <h1 className="uppercase font-semibold">myfaves</h1>
           </Link>
         </div>
-        <div className="flex content-end items-start">
+        <div className="flex relative items-start w-full">
           <div ref={menuRef}>
             <div className="flex">
               <FiMenu
-                className="md:hidden flex-end justify-end absolute right-[70px]"
+                className="md:hidden cursor-pointer flex-end justify-end absolute right-[70px]"
                 size={30}
                 onClick={() => {
                   toggleMenu();
                   console.log("menu open");
                 }}
               />
+
               <Tooltip title="Logout">
                 <button
                   className="flex content-start absolute right-[30px] sm:right-10"
@@ -109,9 +110,9 @@ export default function Navbar() {
             <div
               className={`md:flex ${
                 showMenu ? "" : "hidden"
-              } gap-4 justify-end w-max`}
+              } gap-4 justify-end w-max absolute right-[6%] z-10 bg-gray-100 p-2 rounded-md top-[80%] md:bg-transparent md:items-center md:mt-4`}
             >
-              <div className="items-start mt-20 md:mt-0 font-boldsm:mt-0">
+              <div className="font-boldsm:mt-0">
                 <Searchbar />
               </div>
               {categories === null ? (
@@ -135,24 +136,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-      {/* <div className=" border flex h-full justify-end ">
-        <FiMenu
-          className=" flex-end justify-end absolute right-[70px]"
-          size={30}
-          onClick={() => {
-            toggleMenu();
-            console.log("menu open");
-          }}
-        />
-        <Tooltip title="Logout">
-          <button
-            className="flex content-start absolute right-[30px] sm:right-10"
-            onClick={handleSignOut}
-          >
-            <IoLogOutOutline size={30} />
-          </button>
-        </Tooltip>
-      </div> */}
     </div>
   );
 }
