@@ -5,7 +5,7 @@ import shortUUID from "short-uuid";
 import { convertToUppercase, pluralToSingular } from "../utils/stringFunctions";
 import { API_URL } from "../utils/apiUrl";
 
-export default function AddItemPage() {
+export default function AddItemPage({ onAddItem }) {
   const location = useLocation();
   const { fields, categoryName } = location.state;
   const { categoryID } = useParams();
@@ -34,20 +34,12 @@ export default function AddItemPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    axios
-      .post(`${API_URL}/categories/${categoryID}/items`, {
-        ...item,
-        category_id: categoryID,
-        id: newItemId,
-        img: imageUrl,
-      })
-      .then(function () {
-        navigate(`/categories/${categoryID}`);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
+    onAddItem({
+      ...item,
+      category_id: categoryID,
+      id: newItemId,
+      img: imageUrl,
+    });
   }
 
   function handleFileUpload(e) {

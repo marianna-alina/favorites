@@ -60,11 +60,42 @@ function App() {
       .catch((e) => console.log(e));
   }, []);
 
+  function addItem(newItem) {
+    console.log(newItem);
+    axios
+      .post(`${API_URL}/categories/${newItem.category_id}/items`, newItem)
+
+      .then(function () {
+        setItems((prevItems) => [...prevItems, newItem]);
+        navigate(`/categories/${newItem.category_id}`);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  }
+
+  function updateItem(updatedItem) {
+    console.log(updatedItem);
+    axios
+      .put(`${API_URL}/items/${updatedItem.id}`, updatedItem)
+      .then(function () {
+        setItems((items) =>
+          items.map((item) => {
+            if (item.id === updatedItem.id) {
+              return updatedItem;
+            }
+            return item;
+          })
+        );
+        navigate(`/categories/${updatedItem.category_id}`);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  }
+
   const deleteItem = (itemToDelete) => {
-    // const confirmed = window.confirm(
-    //   "Are you sure you want to delete this item?"
-    // );
-    //if (confirmed) {
+    console.log(itemToDelete);
     axios
       .delete(`${API_URL}/items/${itemToDelete.id}`)
       .then(() => {
@@ -137,7 +168,7 @@ function App() {
               user={user}
               redirect="/categories/:categoryID/items/:itemId/edit"
             >
-              <EditItemPage />
+              <EditItemPage onUpdateItem={updateItem} />
             </ProtectedRoute>
           }
         />
@@ -148,7 +179,7 @@ function App() {
               user={user}
               redirect="/categories/:categoryID/new-item"
             >
-              <AddItemPage />
+              <AddItemPage onAddItem={addItem} />
             </ProtectedRoute>
           }
         />

@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../utils/apiUrl";
 import { convertToUppercase } from "../utils/stringFunctions";
 
-export default function EditItemPage() {
+export default function EditItemPage({ onUpdateItem }) {
   const location = useLocation();
   const { item } = location.state;
   const { categoryID } = useParams();
@@ -25,17 +25,10 @@ export default function EditItemPage() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    axios
-      .put(`${API_URL}/items/${editedItem.id}`, {
-        ...editedItem,
-        img: imageUrl,
-      })
-      .then(function () {
-        navigate(`/categories/${categoryID}`);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
+    onUpdateItem({
+      ...editedItem,
+      img: imageUrl,
+    });
   }
 
   function handleFileUpload(e) {

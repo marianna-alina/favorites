@@ -28,6 +28,15 @@ export default function CategoryPage({
       .catch((e) => console.log(e));
   }, [categoryID]);
 
+  // useEffect(() => {
+  //   axios
+  //     .get(`${API_URL}/items`)
+  //     .then((response) => {
+  //       setItems(response.data);
+  //     })
+  //     .catch((e) => console.log(e));
+  // }, []);
+
   const filterItems = (array) => {
     if (array) {
       return array.filter((item) => {
