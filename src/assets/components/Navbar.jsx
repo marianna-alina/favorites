@@ -85,7 +85,7 @@ export default function Navbar() {
         <div className="flex content-center justify-end text-3xl">
           <RiHeartAddLine />
           <Link to="/dashboard">
-            <h1 className="uppercase font-semibold">myfavs</h1>
+            <h1 className="uppercase font-semibold">myfaves</h1>
           </Link>
         </div>
         <div className="flex content-end items-start">
