@@ -17,8 +17,8 @@ export default function CategoryCard({ name, items, id }) {
           filterItems(items)
             .slice(0, 3)
             .map((item) => (
-              <div key={item.id} className="w-28 h-48">
-                <img src={item.img} className="object-contain" />
+              <div key={item.id} className="min-h-44 h-44  object-cover w-24">
+                <img src={item.img} className="object-cover max-w-full max-h-full" />
                 <p>{item.name}</p>
               </div>
             ))}

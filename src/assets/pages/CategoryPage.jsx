@@ -58,7 +58,7 @@ export default function CategoryPage({
         )}
       </div>
 
-      <div className="grid lg:grid-cols-3 2xl:grid-cols-4 gap-6">
+      <div className="grid lg:grid-cols-2 2xl:grid-cols-3 gap-6">
         {items === null ? (
           <p>Loading...</p>
         ) : (
