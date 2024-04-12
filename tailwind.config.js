@@ -4,9 +4,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        secondary: ["Lora"],
+        primary: ["Nunito"],
+        secondary: ["Satisfy"],
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui", "@tailwindcss/forms")],
 };
