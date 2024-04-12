@@ -43,10 +43,12 @@ export default function AddCategoryPage() {
 
   return (
     <>
-      <div className="flex flex-col max-w-full p-4 gap-5 ">
+      <div className="flex flex-col max-w-full md:w-[70%] md:mx-auto p-4 gap-6 ">
         <h1 className="text-3xl font-bold">Add a new custom category</h1>
         <form onSubmit={handleSubmit}>
-          <h2>Type the name of the category (e.g. &quot;Tv Shows&quot;)</h2>
+          <h2 className="mb-3 text-left">
+            Type the name of the category (e.g. &quot;Tv Shows&quot;)
+          </h2>
           <div className="flex justify-between items-baseline gap-3">
             <label className="text-lg">Name</label>
 
@@ -60,11 +62,11 @@ export default function AddCategoryPage() {
               onChange={handleNameChange}
             />
           </div>
-          <h2>
+          <h2 className=" text-left">
             Type fields you want to associate to this category (e.g. for tv
             shows: genre, year...){" "}
           </h2>
-          <p>You can type up to 5 fields</p>
+          <p className="text-left mb-3">You can type up to 5 fields</p>
           {category.fields.map((field, index) => (
             <div
               className="flex justify-between items-baseline gap-3"

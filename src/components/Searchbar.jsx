@@ -43,7 +43,7 @@ export default function Searchbar() {
         placeholder="Search favorite..."
         onChange={handleChange}
         value={query}
-        className="pr-2 pl-2 pt-1 pb-1 rounded-md"
+        className="px-2 py-1 rounded-md w-4/5 sm:w-full"
       />
       <ul>
         {searchResults.map((item) => (

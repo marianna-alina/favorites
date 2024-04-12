@@ -1,15 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import shortUUID from "short-uuid";
 import { convertToUppercase, pluralToSingular } from "../utils/stringFunctions";
-import { API_URL } from "../utils/apiUrl";
 
 export default function AddItemPage({ onAddItem }) {
   const location = useLocation();
   const { fields, categoryName } = location.state;
   const { categoryID } = useParams();
-  const navigate = useNavigate();
   const newItemId = shortUUID.generate();
 
   useEffect(() => {
@@ -86,7 +84,6 @@ export default function AddItemPage({ onAddItem }) {
 
               {key === "personal_notes" ? (
                 <textarea
-                  required
                   className="mb-4 pl-2 pt-1 pb-1 rounded-md ml-4"
                   type="text"
                   name={key}

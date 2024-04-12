@@ -25,7 +25,7 @@ export default function ItemDetailsPage() {
       {item === null ? (
         <h1>Loading...</h1>
       ) : (
-        <div className="p-3 mt-20 max-h-5/6 flex flex-col  md:flex-row lg:w-3/4 lg:mx-auto gap-10">
+        <div className="p-3  max-h-5/6 flex flex-col sm:mt-16  md:flex-row lg:w-3/4 lg:mx-auto gap-10">
           <div>
             {item.img && <img src={item.img} className="rounded-lg mx-auto" />}
           </div>
@@ -41,7 +41,7 @@ export default function ItemDetailsPage() {
               .map((entry, index) => (
                 <div key={index} className="flex flex-col">
                   {entry[0] === "name" ? (
-                    <h1 className="text-lg text-left text-5xl mb-10">
+                    <h1 className="text-left text-3xl sm:text-5xl mb-10">
                       <b>{entry[1]}</b>
                     </h1>
                   ) : (

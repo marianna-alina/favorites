@@ -1,4 +1,5 @@
-import { IoHeartDislikeOutline } from "react-icons/io5";
+import { MdDelete } from "react-icons/md";
+
 import { convertToUppercase } from "../utils/stringFunctions";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { useParams } from "react-router-dom";
@@ -26,7 +27,8 @@ export default function ItemCard({
       <div className="flex justify-end">
         <Tooltip title="Delete">
           <button>
-            <IoHeartDislikeOutline size={30} onClick={handleClickOpen} />
+            {/* <IoHeartDislikeOutline size={30} onClick={handleClickOpen} /> */}
+            <MdDelete size={30} onClick={handleClickOpen} />
           </button>
           <Dialog
             open={isDialogOpen}
@@ -42,7 +44,7 @@ export default function ItemCard({
             </DialogContent>
             <DialogActions>
               <button onClick={handleClose}>Cancel</button>
-              <button onClick={() => deleteItem(item.id)}>Delete</button>
+              <button onClick={() => deleteItem(item)}>Delete</button>
             </DialogActions>
           </Dialog>
         </Tooltip>

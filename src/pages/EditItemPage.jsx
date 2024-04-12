@@ -1,14 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { API_URL } from "../utils/apiUrl";
+import { useLocation } from "react-router-dom";
 import { convertToUppercase } from "../utils/stringFunctions";
 
 export default function EditItemPage({ onUpdateItem }) {
   const location = useLocation();
   const { item } = location.state;
-  const { categoryID } = useParams();
-  const navigate = useNavigate();
+
   const hiddenFields = ["id", "category_id", "img", "categoryId"];
 
   const [editedItem, setEditedItem] = useState(item);
@@ -29,6 +27,7 @@ export default function EditItemPage({ onUpdateItem }) {
       ...editedItem,
       img: imageUrl,
     });
+    console.log(editedItem);
   }
 
   function handleFileUpload(e) {
@@ -58,15 +57,19 @@ export default function EditItemPage({ onUpdateItem }) {
 
   return (
     <>
-      <div className="d-inline-flex flex-column w-100 p-4">
+      <div className="inline-flex flex-column w-100">
         <form onSubmit={handleSubmit}>
-          <input type="file" onChange={(e) => handleFileUpload(e)} />
+          <input
+            className="mb-2"
+            type="file"
+            onChange={(e) => handleFileUpload(e)}
+          />
           {Object.entries(editedItem).map(
             ([key, value], index) =>
               !hiddenFields.includes(key) && (
                 <div
                   key={index}
-                  className="flex justify-between items-baseline gap-3"
+                  className="flex justify-between items-baseline"
                 >
                   <label className="text-lg">{convertToUppercase(key)}</label>
                   {key === "personal_notes" ? (

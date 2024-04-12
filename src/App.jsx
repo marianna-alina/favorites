@@ -1,25 +1,19 @@
 import "./App.css";
 import axios from "axios";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import Dashboard from "./assets/pages/Dashboard";
-import ItemDetailsPage from "./assets/pages/ItemDetailsPage";
-import CategoryPage from "./assets/pages/CategoryPage";
-import AddItemPage from "./assets/pages/AddItemPage";
-import EditItemPage from "./assets/pages/EditItemPage";
-import { API_URL } from "./assets/utils/apiUrl";
-import { useEffect, useState } from "react";
-import AddCategoryPage from "./assets/pages/AddCategoryPage";
-import LandingPage from "./assets/pages/LandingPage";
-import ProtectedRoute from "./assets/pages/ProtectedRoute";
-import { getAuth } from "firebase/auth";
 
-import { continueWithGoogle } from "./assets/utils/auth";
-import { app } from "./firebaseConfig";
+import { useEffect, useState } from "react";
+import Dashboard from "./pages/Dashboard";
+import CategoryPage from "./pages/CategoryPage";
+import ItemDetailsPage from "./pages/ItemDetailsPage";
+import EditItemPage from "./pages/EditItemPage";
+import AddItemPage from "./pages/AddItemPage";
+import AddCategoryPage from "./pages/AddCategoryPage";
+import { API_URL } from "./utils/apiUrl";
+import Navbar from "./components/Navbar";
 
 function App() {
   const [items, setItems] = useState(null);
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -31,25 +25,6 @@ function App() {
   };
 
   const navigate = useNavigate();
-  const auth = getAuth(app);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, [auth]);
-
-  async function signupWithGoogle() {
-    try {
-      await continueWithGoogle();
-      navigate("/dashboard");
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   useEffect(() => {
     axios
@@ -61,7 +36,6 @@ function App() {
   }, []);
 
   function addItem(newItem) {
-    console.log(newItem);
     axios
       .post(`${API_URL}/categories/${newItem.category_id}/items`, newItem)
 
@@ -76,6 +50,7 @@ function App() {
 
   function updateItem(updatedItem) {
     console.log(updatedItem);
+
     axios
       .put(`${API_URL}/items/${updatedItem.id}`, updatedItem)
       .then(function () {
@@ -110,87 +85,36 @@ function App() {
     // }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div className="flex flex-col w-full ">
+    <div className="flex flex-col w-full font-primary ">
+      <Navbar />
       <Routes>
-        <Route
-          path="/"
-          element={
-            <LandingPage
-              items={items}
-              handleSignUp={signupWithGoogle}
-              user={user}
-            />
-          }
-        />
-
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute user={user} redirect="/dashboard">
-              <Dashboard items={items} user={user} />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/" element={<Dashboard items={items} />} />
         <Route
           path="/categories/:categoryID"
           element={
-            <ProtectedRoute user={user} redirect="/categories/:categoryID">
-              <CategoryPage
-                deleteItem={deleteItem}
-                items={items}
-                handleClickOpen={handleClickOpen}
-                handleClose={handleClose}
-                isDialogOpen={isDialogOpen}
-              />
-            </ProtectedRoute>
+            <CategoryPage
+              deleteItem={deleteItem}
+              items={items}
+              handleClickOpen={handleClickOpen}
+              handleClose={handleClose}
+              isDialogOpen={isDialogOpen}
+            />
           }
         />
         <Route
           path="/categories/:categoryID/items/:itemId"
-          element={
-            <ProtectedRoute
-              user={user}
-              redirect="/categories/:categoryID/items/:itemId"
-            >
-              <ItemDetailsPage deleteItem={deleteItem} />
-            </ProtectedRoute>
-          }
+          element={<ItemDetailsPage deleteItem={deleteItem} />}
         />
         <Route
           path="/categories/:categoryID/items/:itemId/edit"
-          element={
-            <ProtectedRoute
-              user={user}
-              redirect="/categories/:categoryID/items/:itemId/edit"
-            >
-              <EditItemPage onUpdateItem={updateItem} />
-            </ProtectedRoute>
-          }
+          element={<EditItemPage onUpdateItem={updateItem} />}
         />
         <Route
           path="/categories/:categoryID/new-item"
-          element={
-            <ProtectedRoute
-              user={user}
-              redirect="/categories/:categoryID/new-item"
-            >
-              <AddItemPage onAddItem={addItem} />
-            </ProtectedRoute>
-          }
+          element={<AddItemPage onAddItem={addItem} />}
         />
-        <Route
-          path="/new-category"
-          element={
-            <ProtectedRoute user={user} redirect="/new-category">
-              <AddCategoryPage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/new-category" element={<AddCategoryPage />} />
       </Routes>
     </div>
   );
