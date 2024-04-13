@@ -12,15 +12,15 @@ export default function CategoryCard({ name, items, id }) {
       <h1 className="px-6 py-3 text-black text-left text-sm">
         {name.toUpperCase()}
       </h1>
-      <div className="grid grid-cols-3 p-2  h-full">
+      <div className="grid grid-cols-3 p-2 gap-2  h-full">
         {items !== null &&
           filterItems(items)
             .slice(0, 3)
             .map((item) => (
-              <div key={item.id} className="min-h-44 h-44  w-24 mx-auto">
+              <div key={item.id} className="w-full h-44">
                 <img
                   src={item.img}
-                  className="object-cover max-w-full max-h-full mx-auto"
+                  className="object-cover w-full h-full aspect-square"
                 />
                 <p>{item.name}</p>
               </div>
