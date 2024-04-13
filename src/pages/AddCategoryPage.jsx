@@ -34,7 +34,7 @@ export default function AddCategoryPage() {
         category_id: newCategoryId,
       })
       .then(function () {
-        navigate(`/dashboard`);
+        navigate(`/`);
       })
       .catch(function (err) {
         console.log(err);
